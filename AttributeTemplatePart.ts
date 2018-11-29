@@ -50,6 +50,7 @@ export default class AttributeTemplatePart extends TemplatePart {
   private _element: Element
   private _partList: PartList
   private _valueString: null | string
+  private _expression: string
 
   constructor({
     expression,
@@ -57,11 +58,16 @@ export default class AttributeTemplatePart extends TemplatePart {
     element,
     partList,
   }: AttributeTemplatePartOptions) {
-    super(expression)
+    super()
+    this._expression = expression
     this._attribute = attribute
     this._element = element
     this._partList = partList
     this._valueString = null
+  }
+
+  get expression() {
+    return this._expression
   }
 
   get element() {
@@ -89,6 +95,7 @@ export default class AttributeTemplatePart extends TemplatePart {
     applyPartListToElement(this._element, this._attribute, this._partList)
   }
 
+  // TODO: Implement attribute present
   get attributePresent() {
     return this._element.hasAttribute
   }

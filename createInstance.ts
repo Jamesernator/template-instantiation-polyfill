@@ -4,6 +4,7 @@ import NodeTemplatePart from './NodeTemplatePart.js'
 import Anchor from './Anchor.js'
 import descendantNodes from './descendantNodes.js';
 import parseATemplateString from './parseATemplateString.js';
+import defaultProcessor from './defaultTemplateProcessor.js'
 
 import AttributeTemplatePart, { 
   applyPartListToElement
@@ -17,16 +18,6 @@ type TemplateProcessor = {
 type CreateInstanceOptions = {
   state?: any,
   processor?: TemplateProcessor,
-}
-
-const defaultProcessor = {
-  process(templateInstance: TemplateInstance, state: any) {
-    for (const part of templateInstance.parts) {
-      if (part.expression in state) {
-        part.value = state[part.expression]
-      }
-    }
-  },
 }
 
 export default function createInstance(
@@ -64,7 +55,12 @@ export default function createInstance(
         }
       }
     } else if (currentNode instanceof HTMLTemplateElement) {
-      // TODO: Complete this
+      const anchor = new Anchor()
+      const parentNode = currentNode.parentNode!
+      const nextSibling = currentNode.nextSibling
+
+      currentNode.remove()
+      parentNode.insertBefore(anchor, nextSibling)
     } else if (currentNode instanceof Element) {
       for (const attribute of currentNode.attributes) {
         const value = attribute.value.trim()

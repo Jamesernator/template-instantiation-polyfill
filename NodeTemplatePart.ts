@@ -1,11 +1,14 @@
 import TemplatePart from "./TemplatePart.js";
+import Anchor from "./Anchor.js";
 
 export default class NodeTemplatePart extends TemplatePart {
+  private _expression: string
   private _anchor: Node
   private _replacementNodes: Array<ChildNode>
   
-  constructor(expression: string, anchorNode: Node) {
-    super(expression)
+  constructor(expression: string, anchorNode: Anchor) {
+    super()
+    this._expression = expression
     this._anchor = anchorNode
     this._replacementNodes = []
 
@@ -31,6 +34,10 @@ export default class NodeTemplatePart extends TemplatePart {
         this._anchor.parentNode!.insertBefore(node, referenceNode)
       }
     }
+  }
+
+  get expression() {
+    return this._expression
   }
 
   get replacementNodes() {
@@ -63,7 +70,7 @@ export default class NodeTemplatePart extends TemplatePart {
     }
   }
 
-  replace(nodes: Array<ChildNode>) {
+  replace(nodes: Array<string | ChildNode>) {
     const newReplacementNodes = [...nodes]
       .map(value => {
         if (typeof value === 'string') {
