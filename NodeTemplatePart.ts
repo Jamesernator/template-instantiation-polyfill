@@ -1,4 +1,4 @@
-import TemplatePart from "./TemplatePart";
+import TemplatePart from "./TemplatePart.js";
 
 export default class NodeTemplatePart extends TemplatePart {
   private _anchor: Node
@@ -65,6 +65,13 @@ export default class NodeTemplatePart extends TemplatePart {
 
   replace(nodes: Array<ChildNode>) {
     const newReplacementNodes = [...nodes]
+      .map(value => {
+        if (typeof value === 'string') {
+          return new Text(value)
+        } else {
+          return value
+        }
+      })
     for (const node of this._replacementNodes) {
       node.remove()
     }

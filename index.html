@@ -1,0 +1,21 @@
+
+<template id="foo">
+  Hello {{one}}
+  <p title="{{two}}">Suddenly potatoes</p>
+  <div>
+    {{three}}
+  </div>
+
+  <div>There is a potato {{four}}<p>Hello world!</p></div>
+  <p title="A {{five}} combined {{six}} string">{{seven}} and {{eight}} foo</p>
+</template>
+
+<script type="module">
+  import createInstance from './createInstance.js'
+
+  const instance = createInstance(foo)
+
+  document.body.appendChild(instance)
+
+  window.instance = instance
+</script>

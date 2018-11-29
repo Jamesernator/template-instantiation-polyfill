@@ -1,5 +1,10 @@
 
 export default class Anchor extends HTMLElement {
+  constructor() {
+    super()
+    this.style.display = 'none'
+  }
+
   connectedCallback() {
     this.dispatchEvent(new CustomEvent('connected'))
   }

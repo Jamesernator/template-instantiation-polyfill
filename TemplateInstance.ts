@@ -1,13 +1,17 @@
 import TemplatePart from './TemplatePart.js'
 
-type ProcessCallback = (templateInstance: TemplateInstance, state: any) => void
+type TemplateProcessor = {
+  create?: (templateInstance: TemplateInstance, state: any) => void,
+  process: (templateInstance: TemplateInstance, state: any) => void,
+}
 
-export default class TemplateInstance {
+export default class TemplateInstance extends DocumentFragment {
   _parts: Array<TemplatePart>
-  _processCallback: ProcessCallback
-  constructor(parts: Array<TemplatePart>, processCallback: ProcessCallback) {
+  _processor: TemplateProcessor
+  constructor(parts: Array<TemplatePart>, processor: TemplateProcessor) {
+    super()
     this._parts = parts
-    this._processCallback = processCallback
+    this._processor = processor
   }
 
   get parts() {
@@ -15,6 +19,6 @@ export default class TemplateInstance {
   }
 
   update(state: any) {
-    this._processCallback(this, state)
+    this._processor.process(this, state)
   }
 }
