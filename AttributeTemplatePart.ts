@@ -16,16 +16,17 @@ export function applyPartListToElement(
 ): void {
   if (partList.length === 1) {
     const fullTemplate = <AttributeTemplatePart>partList[0]
+    const value = fullTemplate.value
     if (fullTemplate.valueString === null) {
       element.removeAttributeNS(
         attribute.namespaceURI,
         attribute.localName,
       )
-    } else {
+    } else if(value !== null){
       element.setAttributeNS(
         attribute.namespaceURI,
         attribute.localName,
-        fullTemplate.value,
+        value,
       )
     }
   } else {
@@ -86,7 +87,7 @@ export default class AttributeTemplatePart extends TemplatePart {
     return this._valueString
   }
 
-  get value(): string {
+  get value(): string | null {
     return this._valueString || ''
   }
 
